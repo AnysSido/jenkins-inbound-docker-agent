@@ -1,0 +1,34 @@
+version: '3.8'
+
+networks:
+  jenkins:
+volumes:
+  jenkins-data:
+
+services:
+  controller:
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    networks:
+      - jenkins
+    ports:
+      - 8083:8080
+      - 50000:50000
+    volumes:
+      - "jenkins-data:/var/jenkins_home"
+
+  inbound-agent:
+    image: anyssido/jenkins-inbound-docker-agent
+    init: true
+    privileged: true
+    environment:
+      - JENKINS_URL=http://jenkins:8080
+      - JENKINS_AGENT_NAME=${JENKINS_AGENT_NAME}
+      - JENKINS_SECRET=${JENKINS_SECRET}
+      - JENKINS_WEB_SOCKET=true
+      - TINI_SUBREAPER=true
+    networks:
+      - jenkins
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
