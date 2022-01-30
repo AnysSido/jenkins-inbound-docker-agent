@@ -113,7 +113,7 @@ services:
     init: true
     privileged: true
     environment:
-      - JENKINS_URL=http://jenkins:8080
+      - JENKINS_URL=http://controller:8080
       - JENKINS_AGENT_NAME=${JENKINS_AGENT_NAME}
       - JENKINS_SECRET=${JENKINS_SECRET}
       - JENKINS_WEB_SOCKET=true
