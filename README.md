@@ -5,6 +5,7 @@ This docker image is an extension of the [jenkins/inbound-agent](https://hub.doc
 Docker-out-of-Docker exposes the host's Docker socket to a container allowing Docker commands to be executed on the host from the container. There is no docker engine running within the container.
 
 - [Quickstart](#quickstart)
+  - [Requirements](#requirements)
   - [Docker Compose](#docker-compose)
   - [Docker CLI](#docker-cli)
 - [How to](#how-to)
@@ -16,6 +17,12 @@ Docker-out-of-Docker exposes the host's Docker socket to a container allowing Do
 ---
 
 ## Quickstart
+
+### Requirements
+
+[jenkins/inbound-agent](https://hub.docker.com/r/jenkins/inbound-agent) currently requires the cgroup namespace mode `host` set
+for the container, which is not the default on cgroup v2 docker hosts anymore. It also cannot be specified with the latest docker-compose spec yet.
+As a workaround you could change the `default-cgroupns-mode` of the docker deamon to `host` or bind the volumes to the same absolute path on the host (`/home/jenkins/agent`) instead of using docker volumes.
 
 ### Docker-compose
 
